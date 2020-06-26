@@ -1,5 +1,4 @@
-use super::SIZE;
-use super::{HEIGHT, WIDTH};
+use super::{SIZE, X_SCALE, Y_SCALE};
 use rand::{thread_rng, Rng};
 use std::ptr::eq;
 
@@ -15,16 +14,13 @@ impl Point {
   }
 
   pub fn overlap(&self, point: &Point) -> bool {
-    if !eq(self, point) {
-      return self.x == point.x && self.y == point.y;
-    }
-    false
+    return self.x == point.x && self.y == point.y && !eq(self, point);
   }
 
   pub fn random() -> Point {
     Point {
-      x: thread_rng().gen_range(0, (WIDTH - SIZE) as i32),
-      y: thread_rng().gen_range(0, (HEIGHT - SIZE) as i32),
+      x: (thread_rng().gen_range(0, X_SCALE) * SIZE) as i32,
+      y: (thread_rng().gen_range(0, Y_SCALE) * SIZE) as i32,
     }
   }
 }

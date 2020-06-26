@@ -15,8 +15,11 @@ const LEFT: Point = Point { x: -1, y: 0 };
 
 const SIZE: u32 = 32;
 
-const WIDTH: u32 = SIZE * 30;
-const HEIGHT: u32 = SIZE * 17;
+const X_SCALE: u32 = 30;
+const Y_SCALE: u32 = 17;
+
+const WIDTH: u32 = SIZE * X_SCALE;
+const HEIGHT: u32 = SIZE * Y_SCALE;
 const GRAY: Color = Color::RGB(100, 100, 100);
 const RED: Color = Color::RGB(100, 10, 10);
 const GREEN: Color = Color::RGB(10, 100, 10);

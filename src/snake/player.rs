@@ -2,7 +2,7 @@ use super::apple::Apple;
 use super::point::Point;
 use super::Direction;
 use super::Direction::{Down, Left, Right, Up};
-use super::{GREEN, HEIGHT, SIZE, WIDTH};
+use super::{DOWN, GREEN, HEIGHT, LEFT, RIGHT, SIZE, UP, WIDTH};
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
@@ -25,8 +25,8 @@ impl Player {
   pub fn reload(&mut self) {
     for i in (0..self.body.len()).rev() {
       if i == 0 {
-        self.body[i].x += self.pos.x;
-        self.body[i].y += self.pos.y;
+        self.body[i].x += self.pos.x * SIZE as i32;
+        self.body[i].y += self.pos.y * SIZE as i32;
       } else {
         self.body[i].x = self.body[i - 1].x;
         self.body[i].y = self.body[i - 1].y;
@@ -57,7 +57,9 @@ impl Player {
 
   pub fn hit_self(&self) -> bool {
     for p in &self.body {
-      return self.head().overlap(&p);
+      if self.head().overlap(&p) {
+        return true;
+      }
     }
     false
   }
@@ -72,13 +74,28 @@ impl Player {
   }
 
   pub fn set_direction(&mut self, direction: Direction) {
-    let pos = match direction {
-      Up(p) => p,
-      Right(p) => p,
-      Down(p) => p,
-      Left(p) => p,
+    match direction {
+      Up(p) => {
+        if self.pos != DOWN {
+          self.pos = p;
+        }
+      }
+      Right(p) => {
+        if self.pos != LEFT {
+          self.pos = p;
+        }
+      }
+      Down(p) => {
+        if self.pos != UP {
+          self.pos = p;
+        }
+      }
+      Left(p) => {
+        if self.pos != RIGHT {
+          self.pos = p;
+        }
+      }
     };
-    self.pos = pos;
   }
 
   fn head(&self) -> &Point {

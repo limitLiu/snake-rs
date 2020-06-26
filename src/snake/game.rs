@@ -2,12 +2,12 @@ use super::apple::Apple;
 use super::custom_err::CustomErr;
 use super::player::Player;
 use super::Direction::*;
-use super::{DOWN, LEFT, RIGHT, UP};
-use super::{GRAY, HEIGHT, WIDTH};
+use super::{DOWN, GRAY, HEIGHT, LEFT, RIGHT, SIZE, UP, WIDTH};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::render::WindowCanvas;
 use sdl2::EventPump;
+use std::time::{Duration, Instant};
 
 pub struct Game {
   pub canvas: WindowCanvas,
@@ -15,6 +15,7 @@ pub struct Game {
   pub events: EventPump,
   pub snake: Player,
   pub apple: Apple,
+  pub last: Instant,
 }
 
 impl Game {
@@ -37,6 +38,7 @@ impl Game {
       events,
       snake: Player::new(),
       apple: Apple::new(),
+      last: Instant::now(),
     })
   }
 
@@ -83,7 +85,12 @@ impl Game {
   }
 
   pub fn render(&mut self) {
-    let Game { canvas, .. } = self;
+    let Game { canvas, last, .. } = self;
+    if !(Instant::now() - *last
+      >= Duration::from_millis((1.0 / (SIZE as f32) * 5000.0) as u64))
+    {
+      return;
+    }
     canvas.set_draw_color(GRAY);
     canvas.clear();
     self.apple.draw(canvas);
@@ -101,5 +108,6 @@ impl Game {
       self.apple.refresh();
       self.snake.reset();
     }
+    self.last = Instant::now();
   }
 }
