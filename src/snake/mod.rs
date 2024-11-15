@@ -3,7 +3,7 @@ use sdl2::pixels::Color;
 
 pub mod apple;
 pub mod audio;
-pub mod custom_err;
+pub mod err;
 pub mod game;
 pub mod player;
 pub mod point;

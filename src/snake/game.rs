@@ -1,5 +1,5 @@
 use super::apple::Apple;
-use super::custom_err::CustomErr;
+use super::err::CustomErr;
 use super::player::Player;
 use super::Direction::*;
 use super::{DOWN, GRAY, HEIGHT, LEFT, RIGHT, SIZE, UP, WIDTH};
@@ -23,7 +23,7 @@ impl Game {
     let sdl_context = sdl2::init()?;
     let vs = sdl_context.video()?;
     let window = vs
-      .window(title, WIDTH as u32, HEIGHT as u32)
+      .window(title, WIDTH, HEIGHT)
       .position_centered()
       .opengl()
       .resizable()
@@ -86,8 +86,8 @@ impl Game {
 
   pub fn render(&mut self) {
     let Game { canvas, last, .. } = self;
-    if !(Instant::now() - *last
-      >= Duration::from_millis((1.0 / (SIZE as f32) * 5000.0) as u64))
+    if Instant::now() - *last
+      < Duration::from_millis((1.0 / (SIZE as f32) * 5000.0) as u64)
     {
       return;
     }

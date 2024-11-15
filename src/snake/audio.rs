@@ -1,4 +1,4 @@
-use super::custom_err::CustomErr;
+use super::err::CustomErr;
 use sdl2::mixer::{open_audio, Music, AUDIO_S16LSB, DEFAULT_CHANNELS};
 use std::path::Path;
 

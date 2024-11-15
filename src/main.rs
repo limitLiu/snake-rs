@@ -1,8 +1,8 @@
 mod snake;
 
-use snake::custom_err::CustomErr;
-use snake::game::Game;
 use snake::audio::Audio;
+use snake::err::CustomErr;
+use snake::game::Game;
 
 fn main() -> Result<(), CustomErr> {
   let mut game = Game::new("snake sdl2 rust")?;

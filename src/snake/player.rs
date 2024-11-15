@@ -57,7 +57,7 @@ impl Player {
 
   pub fn hit_self(&self) -> bool {
     for p in &self.body {
-      if self.head().overlap(&p) {
+      if self.head().overlap(p) {
         return true;
       }
     }
